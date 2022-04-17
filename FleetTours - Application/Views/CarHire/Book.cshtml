@@ -1,0 +1,209 @@
+﻿@model FleetTours___Application.Models.BookDetail
+
+@{
+    ViewBag.Title = "Book";
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <style>
+        #form{
+            width:100%;
+            height:100vh;
+        }
+        #calender {
+            width: 100%;
+            height: 100vh;
+        }
+    </style>
+
+    <div class="jumbotron">
+        <div class="container">
+            <table>
+                <tr>
+                    <td colspan="2">
+                        <h2 style="margin-bottom:10vh;" class="text-center"><u>Book Details</u></h2>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <div class="text-center text-danger">
+                            @ViewBag.ErrorCap
+                            @ViewBag.WrongDate
+                            @ViewBag.PassengerError
+                            @ViewBag.DateConflict<br>
+                            @ViewBag.Help
+                        </div>
+                        <br />
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width:50%">
+                            <div id="form" class="form-horizontal">
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                                <div class="form-group">
+                                    @*@Html.LabelFor(model => model.FullName, htmlAttributes: new { @class = "control-label col-md-2" })*@
+                                    <label>Full Name</label>
+                                    <div>
+                                        @Html.EditorFor(model => model.FullName, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                        @Html.ValidationMessageFor(model => model.FullName, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>RSAID Number</label>
+                                    @*@Html.LabelFor(model => model.RSAID, htmlAttributes: new { @class = "control-label col-md-2" })*@
+                                    <div>
+                                        @Html.EditorFor(model => model.RSAID, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                        @Html.ValidationMessageFor(model => model.RSAID, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Email:</label>
+                                    @*@Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })*@
+                                    <div>
+                                        @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                        @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Vehicle To Book</label>
+                                    @*@Html.LabelFor(model => model.BookedVehicle, htmlAttributes: new { @class = "control-label col-md-2" })*@
+                                    <div>
+                                        @Html.EditorFor(model => model.BookedVehicle, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                        @Html.ValidationMessageFor(model => model.BookedVehicle, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Trip To?</label>
+                                    <div>
+                                        @Html.EditorFor(model => model.Vacation, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.Vacation, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Pick Up Date</label>
+                                    @*@Html.LabelFor(model => model.VacationDate, htmlAttributes: new { @class = "control-label col-md-2" })*@
+                                    <div>
+                                        @Html.EditorFor(model => model.VacationDate, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.VacationDate, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Pick Up Time</label>
+                                    @*@Html.LabelFor(model => model.LessonTime, htmlAttributes: new { @class = "control-label col-md-2" })*@
+                                    <div>
+                                        @Html.EditorFor(model => model.LessonTime, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.LessonTime, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Hire Period (In Days):</label>
+                                    @*@Html.LabelFor(model => model.HirePeriod, htmlAttributes: new { @class = "control-label col-md-2" })*@
+                                    <div>
+                                        @Html.EditorFor(model => model.HirePeriod, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.HirePeriod, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Number of Passengers</label>
+                                    <div>
+                                        @Html.EditorFor(model => model.Passengers, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.Passengers, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                @*<div class="form-group" hidden="hidden">
+                                    @Html.HiddenFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.HiddenFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>*@
+
+                                <div class="form-group" hidden="hidden">
+                                    @Html.HiddenFor(model => model.VehicleID, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.HiddenFor(model => model.VehicleID, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.VehicleID, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                    </td>
+                    <td style="width:50%">
+                        <div id="calender"></div>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <div class="form-group">
+                            <div class="text-center">
+                                <input type="submit" value="Save and Continue" class="btn btn-primary" />
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+           
+        </div>
+    </div>
+}
+
+
+<link href="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.min.css" rel="stylesheet" />
+<link href="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.print.css" rel="stylesheet" media="print" />
+
+@section Scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            var events = [];
+            $.ajax({
+                type: "GET",
+                url: "/CarHire/GetEvents",
+                success: function (data) {
+                    $.each(data, function (i, v) {
+                        events.push({
+                            start: moment(v.HireDate),
+                            end: moment(v.ReturnDate),
+                        });
+                    })
+
+                    GenerateCalender(events);
+                },
+                error: function (error) {
+                    alert('failed');
+                }
+            })
+
+            function GenerateCalender(events) {
+                $('#calender').fullCalendar('destroy');
+                $('#calender').fullCalendar({
+                    contentHeight: 400,
+                    defaultDate: new Date(),
+                    timeFormat: 'h(:mm)a',
+                    header: {
+                        left: 'prev,next today',
+                        center: 'title',
+                        right: 'month,basicWeek,basicDay,agenda'
+                    },
+                    eventLimit: true,
+                    eventColor: '#0D8066',
+                    events: events,
+                })
+            }
+        })
+    </script>
+}

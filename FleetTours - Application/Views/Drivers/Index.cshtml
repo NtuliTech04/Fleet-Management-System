@@ -1,0 +1,120 @@
+﻿@model FleetTours___Application.Models.PagedList<FleetTours___Application.Models.Driver>
+@{
+    ViewBag.Title = "Driver List";
+}
+<style>
+    .input-validation-error, .required {
+        border-left: 5px solid #ee0000 !important;
+    }
+
+    .valid {
+        border-left: 5px solid #00aa00 !important;
+    }
+
+    .field-validation-error {
+        color: #990000;
+    }
+
+    .footer {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        height: 60px;
+        background-color: #f5f5f5;
+    }
+
+    tfoot {
+        text-align: right;
+    }
+
+        tfoot > tr > td a:link {
+            color: #fff;
+            background-color: #333;
+            padding: 5px 10px;
+            border-radius: 7px;
+        }
+</style>
+<div class="jumbotron">
+    <div class="container">
+        <h2 class="text-center"><u>List of All Drivers</u></h2>
+            @using (Html.BeginForm("Index", "Drivers", FormMethod.Get))
+            {
+                <div class="row">
+                    <div class="col-sm-8">
+                        <div class="input-group">
+
+                            <input type="text"
+                                   name="filter"
+                                   value="@ViewBag.filter"
+                                   class="form-control"
+                                   style="display: inline"
+                                   placeholder="Search by Email or RSAID" />
+
+                            <span class="" style="display:flex;">
+                                <button class="btn btn-default" type="submit">Search</button>
+                            </span>
+
+                        </div>
+                    </div>
+                    <div class="pull-right col-lg-1">
+                        <a class="btn btn-success" data-modal="" href="@Url.Action("Create","Drivers")" id="btnCreate">
+                            <span class="glyphicon glyphicon-plus"></span>
+                        </a>
+                    </div>
+                </div>
+
+                <div style="margin-top:17px;">
+                    @{
+                        var grid = new WebGrid(
+                                    canPage: true,
+                                    rowsPerPage: Model.PageSize,
+                                    canSort: true,
+                                    ajaxUpdateContainerId: "grid");
+
+                        grid.Bind(Model.Content, rowCount: Model.TotalRecords, autoSortAndPage: false);
+                        grid.Pager(WebGridPagerModes.All);
+
+                        @grid.GetHtml(htmlAttributes: new { id = "grid" },   // id for ajaxUpdateContainerId parameter
+                        fillEmptyRows: false,
+                        tableStyle: "table table-bordered table-hover",
+                        mode: WebGridPagerModes.All,
+                        columns: grid.Columns(
+                          grid.Column("DriverID", "ID"),
+                          grid.Column("FirstName", "Name"/*, style: "col-lg-4"*/),
+                          grid.Column("LastName", "Surname"/*, style: "col-lg-3"*/),
+                          grid.Column("SAID", "SAID"/*, style: "col-lg-3"*/),
+                          grid.Column("Phone", "Phone"/*, style: "col-lg-3"*/),
+                          grid.Column("Email", "Email"/*, style: "col-lg-3"*/),
+                          grid.Column("BirthDate", "Date Of Birth"/*, style: "col-lg-3"*/),
+                          grid.Column("Cl_Age", "Age"/*, style: "col-lg-3"*/),
+                          grid.Column("Cl_Gender", "Gender"/*, style: "col-lg-3"*/),
+                          grid.Column("VehicleImage", "Image", format:
+                                            @<text>
+                                                @if (item.DriverImage != null)
+                                             {
+                                                 var base64 = Convert.ToBase64String(item.DriverImage);
+                                                 var imgsrc = string.Format("data:image/jpg;base64,{0}", base64);
+                                                    <img src='@imgsrc' style="width:120px;height:90px" />
+                                             }
+                                            </text>),
+           grid.Column(header: "Action", canSort: false, style: "action", format: @<text>
+            @Html.Raw("<a data-modal='' href='/Drivers/details/" + item.DriverID + "' id='" + item.DriverID + "' title='Detail'> <span class='glyphicon glyphicon-search'> </span> </a>")&nbsp;
+            @Html.Raw("<a data-modal='' href='/Drivers/edit/" + item.DriverID + "' id='" + item.DriverID + "' title='Edit'> <span class='glyphicon glyphicon-edit'> </span> </a>")&nbsp;
+            @Html.Raw("<a data-modal='' href='/Drivers/delete/" + item.DriverID + "' id='" + item.DriverID + "' title='Delete'> <span class='glyphicon glyphicon-trash'> </span> </a>")</text>)));
+                    }
+                </div>
+            }
+        </div>
+
+        <!-- modal placeholder-->
+        <div id='myModal' class='modal fade in'>
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div id='myModalContent'></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @section scripts{
+        @Scripts.Render("~/scripts/appjs/phones.js")
+    }

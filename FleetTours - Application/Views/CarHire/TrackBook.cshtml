@@ -1,0 +1,120 @@
+﻿@model IEnumerable<FleetTours___Application.Models.Booking>
+
+@{
+    ViewBag.Title = "Track Book";
+}
+<style>
+    table, th, td {
+        text-align: center;
+        border-collapse: collapse;
+        padding: 7px;
+    }
+
+        table tr:nth-child(odd) {
+            /*background-color: #ffffff;*/
+            background-color: #f1f1f1;
+        }
+
+        table tr:nth-child(even) {
+            background-color: #ffffff;
+        }
+</style>
+<div class="jumbotron">
+    <div class="container" style="margin-top:8vh;">
+        <h4 class="text-center"><b>Trip Details & Pick-Up Confirmation</b></h4>
+        <br />
+
+        <table class="table table-hover">
+            <tr>
+                <th>
+                    <label>Trip To</label>
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.DateCreated)
+                </th>
+                <th>
+                    <label>Vehicle</label>
+                </th>
+                <th>
+                    <label>Vehicle Registration</label>
+                </th>
+                <th>
+                    <label>Driver</label>
+                </th>
+                <th>
+                    <label>Status</label>
+                </th>
+                <th>
+                    <label>Payment</label>
+                </th>
+                <th>
+                    <label>Pick-Up</label>
+                </th>
+                <th class="text-center">Actions</th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.BookDetails.Vacation)
+                    </td>
+                    <td>
+                        @item.DateCreated.ToString("dd-MMM-yyyy")
+                    </td>
+                    <td>
+                        @ViewBag.BookedVehicle
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.BookDetails.Vehicles.RegNo)
+                    </td>
+                    <td>
+                        @if (item.Status != "Pending")
+                        {
+                            <a data-modal="" href="@Url.Action(actionName: "GetDriver", controllerName: "CarHire", routeValues: new { id = item.BkID })" id="btnCreate" class="btn btn-info">Details</a>
+                        }
+                        else
+                        {
+                            <label>Not Assigned</label>
+                        }
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Status)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PaymentStatus)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Confirmation)
+                    </td>
+
+                    <td class="text-center">
+                        @Html.ActionLink("Book Details", "Details", "Bookings", new { id = item.BkID }, new { @class = "btn btn-primary" })
+
+                        @if (item.Status == "Pick-Up Point" && item.Confirmation == "Not Confirmed")
+                        {
+                            @Html.ActionLink("Scan QRCode", "QRScanner", "CarHire", new { id = item.BkID }, new { @class = "btn btn-success" })
+                        }
+                        else
+                        {
+                            @Html.ActionLink("Scan QRCode", "QRScanner", "CarHire", new { id = item.BkID }, new { @class = "btn btn-success disabled" })
+                        }
+                    </td>
+
+                </tr>
+            }
+
+        </table>
+    </div>
+</div>
+<!-- modal placeholder-->
+<div id='myModal' class='modal fade in'>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div id='myModalContent'></div>
+        </div>
+    </div>
+</div>
+@section scripts{
+    @Scripts.Render("~/scripts/appjs/phones.js")
+}

@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31702.278
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FleetTours - Application", "FleetTours - Application\FleetTours - Application.csproj", "{612DCD75-70F2-4ECF-A682-402ABF552B4A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FleetTours - Application.Tests", "FleetTours - Application.Tests\FleetTours - Application.Tests.csproj", "{BB9C88D8-4B84-40B8-95AB-079CE2F15A6B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{612DCD75-70F2-4ECF-A682-402ABF552B4A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{612DCD75-70F2-4ECF-A682-402ABF552B4A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{612DCD75-70F2-4ECF-A682-402ABF552B4A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{612DCD75-70F2-4ECF-A682-402ABF552B4A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BB9C88D8-4B84-40B8-95AB-079CE2F15A6B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BB9C88D8-4B84-40B8-95AB-079CE2F15A6B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BB9C88D8-4B84-40B8-95AB-079CE2F15A6B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BB9C88D8-4B84-40B8-95AB-079CE2F15A6B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {DFF0DDEE-0A7A-4123-B560-38E506270C0A}
+	EndGlobalSection
+EndGlobal

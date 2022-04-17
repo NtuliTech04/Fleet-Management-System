@@ -1,0 +1,29 @@
+﻿
+@{
+    ViewBag.Title = "Create Role";
+}
+
+<div class="jumbotron">
+    <div class="container">
+        <h2>Create User Role</h2>
+
+        @using (Html.BeginForm("CreateRole", "Admin", FormMethod.Post))
+        {
+            <div class="form-horizontal">
+                <div class="form-group">
+                    <label class="col-md-2 control-label">Role Name:</label>
+                    <div class="col-md-10">
+                        <input type="text" class="form-control" name="RoleName" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Add Role" class="btn btn-primary" />
+                        <a class="btn btn-info" style="margin-left:7.8vw;" href="@Url.Action("CreateUserAndAssignRole","Admin")">Add User</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

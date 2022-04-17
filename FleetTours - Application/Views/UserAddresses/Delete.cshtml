@@ -1,0 +1,48 @@
+﻿@model FleetTours___Application.Models.UserAddress
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>UserAddress</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.UserProfile.FirstName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UserProfile.FirstName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PickUp)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PickUp)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Destination)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Destination)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

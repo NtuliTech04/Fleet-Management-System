@@ -1,0 +1,133 @@
+﻿@using FleetTours___Application.Models;
+@model BookDetail
+
+@{
+    ViewBag.Title = "Book Summary";
+}
+
+<div class="jumbotron">
+    <div class="container" style="margin-top:4vh;">
+        @if (ViewBag.Status != "Pending" && ViewBag.Status != "Processed" && ViewBag.Status != null) 
+        {
+            <h3 class="text-center"><b>Confirm Driver Arrival For Pick-Up</b></h3>
+        }
+        else
+        {
+            <h3 class="text-center"><b>Booking Review</b></h3>
+        }
+        @Html.HiddenFor(m => m.BookDetID)
+    <table class="table table-hover table-bordered">
+        <tr class="table-bordered">
+            <th colspan="5"><h4><b>Trip Details</b></h4></th>
+        </tr>
+        <tr class="table table-active">
+            <th>Trip To</th>
+            <th>Date</th>
+            <th>Pick-up Time</th>
+            <th>Hire-Period</th>
+            <th>No. of Passengers</th>
+        </tr>
+        <tr>
+            <td>@Model.Vacation</td>
+            <td>@Model.VacationDate.ToShortDateString()</td>
+            <td>@Model.LessonTime</td>
+            @if (Model.HirePeriod == 1)
+            {
+                <td>@Model.HirePeriod Day</td>
+            }
+            else
+            {
+                <td>@Model.HirePeriod Days</td>
+            }
+            <td>@Model.Passengers</td>
+            <br />
+        </tr>
+        <br />
+        <tr class="table-active">
+            <th colspan="2">
+                <h4><b>Address Details</b></h4>
+            </th>
+            <th colspan="3" class="text-center">
+                <h4><b>Vehicle To Hire</b></h4>
+            </th>
+        </tr>
+        <tr>
+            <th>
+                Pick Up Location
+            </th>
+            <th>
+                Destination
+            </th>
+            <th>
+                Car Brand
+            </th>
+            <th>
+                Car Model
+            </th>
+            <th>
+                Picture
+            </th>
+        </tr>
+        <tr>
+            <td>
+                @ViewBag.PickUp
+            </td>
+            <td>
+                @ViewBag.Destination
+            </td>
+            <td>
+                @Model.Vehicles.VehicleMake
+            </td>
+            <td>
+                @Model.Vehicles.Model
+            </td>
+            <td>
+                @if (Model.Vehicles.VehicleImage != null)
+                {
+                    var base64 = Convert.ToBase64String(Model.Vehicles.VehicleImage);
+                    var imgsrc = string.Format("data:image/jpg;base64,{0}", base64);
+                    <img src='@imgsrc' style="max-width:110px;max-height:140px" />
+                }
+            </td>
+        </tr>
+        @if (ViewBag.Status == null)
+        {
+            <tr></tr>
+            <tr>
+                <td><label><b>Total Cost:</b></label></td>
+
+                <td><b>R @Html.DisplayFor(m => m.Total)</b></td>
+                <td colspan="3"></td>
+            </tr>
+        }
+
+    </table>
+        <br />
+        <div class="col-md-12 text-center">
+            @if (ViewBag.Status == null)
+            {
+                <div>
+                    <a class="btn btn-success" data-modal="" href="@Url.Action("Create","Bookings", new { id=Model.BookDetID})" id="btnCreate">
+                        <span>Payment Method</span>
+                    </a>
+                </div>
+            }
+            else
+            {
+                <a href="@Url.Action(actionName: "PickUpConfirm", controllerName: "CarHire", routeValues: new { id = ViewBag.BkID})" class="btn btn-primary">Confirm Pick-Up</a>
+            }
+        </div>
+    </div>
+</div>
+<!-- modal placeholder-->
+<div id='myModal' class='modal fade in'>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div id='myModalContent'></div>
+        </div>
+    </div>
+</div>
+@section scripts{
+    @Scripts.Render("~/scripts/appjs/phones.js")
+}
+

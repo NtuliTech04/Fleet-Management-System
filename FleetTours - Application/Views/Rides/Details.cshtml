@@ -1,0 +1,83 @@
+﻿@model FleetTours___Application.Models.Ride
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Ride</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Driver.FirstName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Driver.FirstName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RideAddress.PickUp)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RideAddress.PickUp)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UserProfile.FirstName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UserProfile.FirstName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Vehicle.RegNo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Vehicle.RegNo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Distance)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Distance)
+        </dd>
+
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BasicCost)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BasicCost)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Discounts)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Discounts)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TotalCost)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TotalCost)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.RideID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

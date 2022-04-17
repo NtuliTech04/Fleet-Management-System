@@ -1,0 +1,42 @@
+﻿@model FleetTours___Application.Models.UserAddress
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>UserAddress</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.UserProfile.FirstName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UserProfile.FirstName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PickUp)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PickUp)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Destination)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Destination)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.AddressID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

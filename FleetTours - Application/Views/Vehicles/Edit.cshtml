@@ -1,0 +1,119 @@
+﻿@model FleetTours___Application.Models.Vehicle
+
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 class="modal-title">Edit Details</h3>
+</div>
+
+
+@using (Html.BeginForm("Edit", "Vehicles", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.VehicleID)
+
+    <div class="modal-body">
+
+        <div class="form-horizontal">
+            <div class="form-group">
+                @Html.LabelFor(m => Model.RegNo, new { @class = "control-label col-sm-3" })
+                <div class="col-sm-9">
+                    @Html.TextBoxFor(m => m.RegNo, new { @class = "form-control required" })
+                    <div>
+                        @Html.ValidationMessageFor(m => m.Model)
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => Model.VehicleMake, new { @class = "control-label col-sm-3" })
+                <div class="col-sm-9">
+                    @Html.TextBoxFor(m => m.VehicleMake, new { @class = "form-control required" })
+                    <div>
+                        @Html.ValidationMessageFor(m => m.VehicleMake)
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => Model.Model, new { @class = "control-label col-sm-3" })
+                <div class="col-sm-9">
+                    @Html.TextBoxFor(m => m.Model, new { @class = "form-control required" })
+                    <div>
+                        @Html.ValidationMessageFor(m => m.Model)
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => Model.Type, new { @class = "control-label col-sm-3" })
+                <div class="col-sm-9">
+                    @Html.TextBoxFor(m => m.Type, new { @class = "form-control required" })
+                    <div>
+                        @Html.ValidationMessageFor(m => m.Type)
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => Model.Capacity, new { @class = "control-label col-sm-3" })
+                <div class="col-sm-9">
+                    @Html.TextBoxFor(m => m.Capacity, new { @class = "form-control required" })
+                    <div>
+                        @Html.ValidationMessageFor(m => m.Capacity)
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                @Html.LabelFor(m => Model.VehicleImage, new { @class = "control-label col-sm-3" })
+                <div class="col-sm-9">
+                    @*@Html.TextBoxFor(m => m.VehicleImage, new { @class = "form-control required" })*@
+                    <input type="file" name="file" id="file" class="form-control" required />
+                    <div>
+                        @Html.ValidationMessageFor(m => m.VehicleImage)
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Duty, htmlAttributes: new { @class = "control-label col-sm-3" })
+                <div class="col-sm-9">
+                    @Html.DropDownListFor(model => model.Duty, new List<SelectListItem>
+                                            {
+                                              new SelectListItem {Text = "Short Rides"},
+                                              new SelectListItem {Text = "Trips/Hire"},
+                              }, "--Select Duty--", htmlAttributes: new { @class = "form-control required" })
+                    @Html.ValidationMessageFor(model => model.Duty, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-horizontal">
+                <div class="form-group" hidden>
+                    @Html.LabelFor(m => Model.Status, new { @class = "control-label col-sm-3" })
+                    <div class="col-sm-9">
+                        @Html.TextBoxFor(m => m.Status, new { @class = "form-control required" })
+                        <div>
+                            @Html.ValidationMessageFor(m => m.Status)
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-footer">
+        <span id="progress" class="text-center" style="display: none;">
+            <img src="/images/wait.gif" alt="wiat" />
+            Wait..
+        </span>
+
+        <input class="btn btn-primary" type="submit" value="Save" />
+        <button class="btn btn-warning" data-dismiss="modal">Close</button>
+    </div>
+}
+<script>
+    $("form").removeData("validator");
+    $("form").removeData("unobtrusiveValidation");
+    $.validator.unobtrusive.parse("form");
+</script>

@@ -1,0 +1,79 @@
+﻿@model FleetTours___Application.Models.AssignDriver
+
+@{
+    ViewBag.Title = "Assign Driver";
+}
+
+<link href="~/Content/Chosen/chosen.min.css" rel="stylesheet" type="text/css" media="all" />
+
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <br />
+    <h3 class="modal-title text-center">Assign Driver & Process Booking</h3>
+    <br />
+</div>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+
+        <div class="modal-body">
+
+            <div class="form-horizontal">
+
+                <div class="form-group">
+                    <label class="control-label col-md-2">Select&nbsp;Driver:</label>
+                    <div class="col-md-10">
+                        @*Normal DropDown*@
+                        @Html.DropDownListFor(model => model.SelectedDriver, new SelectList(Model.Drivers, "DriverID", "FirstName"), new { id = "normalDropDown", @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.SelectedDriver, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group" hidden>
+                    @Html.LabelFor(model => model.BkID, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.BkID, new { htmlAttributes = new { @class = "form-control " } })
+                        @Html.ValidationMessageFor(model => model.BkID, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <span id="progress" class="text-center" style="display: none;">
+                        <img src="/images/wait.gif" alt="wiat" />
+                        Processing...
+                    </span>
+
+                    <input class="btn btn-primary" type="submit" value="Save" />
+                    <button class="btn btn-warning" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="~/Scripts/chosen.jquery.min.js"></script>
+    <script>
+        $(function () {
+            //normal dropdown
+            $("#normalDropDown").chosen({
+                disable_search_threshold: 5
+            });
+            // multiselect DropDown
+            $("#multiSelectDropDown").chosen({
+                width: "50%"
+
+            });
+        })
+    </script>
+    <script>
+        $("form").removeData("validator");
+        $("form").removeData("unobtrusiveValidation");
+        $.validator.unobtrusive.parse("form");
+    </script>
+}

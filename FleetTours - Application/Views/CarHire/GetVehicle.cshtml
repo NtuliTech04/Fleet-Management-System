@@ -1,0 +1,78 @@
+﻿@model FleetTours___Application.Models.Vehicle
+
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 class="modal-title">Car Details</h3>
+</div>
+
+<div class="modal-body">
+
+    <div class="form-horizontal">
+
+        <div class="form-group">
+            @Html.LabelFor(m => Model.RegNo, new { @class = "control-label col-sm-3" })
+            <div class="col-sm-9">
+                @Html.TextBoxFor(m => m.RegNo, new { @class = "form-control required", @disabled = "disabled" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(m => Model.VehicleMake, new { @class = "control-label col-sm-3" })
+            <div class="col-sm-9">
+                @Html.TextBoxFor(m => m.VehicleMake, new { @class = "form-control required", @disabled = "disabled" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(m => Model.Model, new { @class = "control-label col-sm-3" })
+            <div class="col-sm-9">
+                @Html.TextBoxFor(m => m.Model, new { @class = "form-control required", @disabled = "disabled" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(m => Model.Type, new { @class = "control-label col-sm-3" })
+            <div class="col-sm-9">
+                @Html.TextBoxFor(m => m.Type, new { @class = "form-control required", @disabled = "disabled" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(m => Model.Capacity, new { @class = "control-label col-sm-3" })
+            <div class="col-sm-9">
+                @Html.TextBoxFor(m => m.Capacity, new { @class = "form-control required", @disabled = "disabled" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(m => Model.Duty, new { @class = "control-label col-sm-3" })
+            <div class="col-sm-9">
+                @Html.TextBoxFor(m => m.Duty, new { @class = "form-control required", @disabled = "disabled" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(m => Model.VehicleImage, new { @class = "control-label col-sm-3" })
+            <div class="col-sm-9">
+                @if (Model.VehicleImage != null)
+                {
+                    var base64 = Convert.ToBase64String(Model.VehicleImage);
+                    var imgsrc = string.Format("data:image/jpg;base64,{0}", base64);
+                    @*<img src='@imgsrc' style="max-width:170px;max-height:200px" />*@
+                    <img src='@imgsrc' style="max-width:150px;max-height:180px" />
+                }
+            </div>
+        </div>
+
+        @*<div class="form-group">
+            @Html.LabelFor(m => Model.Status, new { @class = "control-label col-sm-3" })
+            <div class="col-sm-9">
+                @Html.TextBoxFor(m => m.Status, new { @class = "form-control required", @disabled = "disabled" })
+            </div>
+        </div>*@
+    </div>
+</div>
+
+<div class="modal-footer">
+    <button class="btn btn-warning" data-dismiss="modal">Close</button>
+</div>

@@ -1,0 +1,289 @@
+﻿@model FleetTours___Application.Models.Booking
+
+@{
+    ViewBag.Title = "Order Details";
+}
+
+<style>
+    .well {
+        min-height: 20px;
+        padding: 19px;
+        margin-bottom: 20px;
+        background-color: #f5f5f5;
+        border: 1px solid #e3e3e3;
+        border-radius: 4px;
+        -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.05);
+        box-shadow: inset 0 1px 1px rgba(0,0,0,.05)
+    }
+
+        .well blockquote {
+            border-color: #ddd;
+            border-color: rgba(0,0,0,.15)
+        }
+
+    .dl-horizontal {
+        min-width: 73.8vw;
+        /*margin-right:50vw;*/
+    }
+
+    table, th, td {
+        border: 1px solid grey;
+        border-collapse: collapse;
+        padding: 7px;
+    }
+
+        table tr:nth-child(odd) {
+            background-color: #f1f1f1;
+        }
+
+        table tr:nth-child(even) {
+            background-color: #ffffff;
+        }
+</style>
+
+@using (Html.BeginForm())
+{
+    <div class="jumbotron">
+        <div class="container" style="margin-top:4vh;">
+
+            <h2 class="text-center"><b>Client's Booking Details</b></h2>
+            <br />
+            @if (User.IsInRole("Driver"))
+            {
+                <p class="text-center"><b>Fleet Tours Transport Services<br /> Driver</b></p><br />
+            }
+            else if (User.IsInRole("Administrator"))
+            {
+                <p class="text-center"><b>Fleet Tours Transport Services<br /> Administrator</b></p><br />
+            }
+            else
+            {
+                <p class="text-center"><b>Fleet Tours Transport Services</b></p><br />
+            }
+            <div>
+                <br />
+                @Html.HiddenFor(x => x.BkID)
+
+                <table style="width:100%">
+                    <tr class="table-active">
+                        <td colspan="4" align="center">
+                            <b>Personal Details</b>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label><b>First Name:</b></label>
+                            @Html.DisplayFor(model => model.UserProfile.FirstName)
+                        </td>
+
+                        <td>
+                            <label><b>Last Name:</b></label>
+                            @Html.DisplayFor(model => model.UserProfile.LastName)
+                        </td>
+                        <td>
+                            <label><b>Gender:</b></label>
+                            @Html.DisplayFor(model => model.UserProfile.Cl_Gender)
+                        </td>
+
+                        <td>
+                            <label><b>Age:</b></label>
+                            @Html.DisplayFor(model => model.UserProfile.Cl_Age)
+                        </td>
+                    </tr>
+                    <tr class="table-active">
+                        <td colspan="2" align="center">
+                            <b>Contact Details</b>
+                        </td>
+                        <td colspan="2" align="center">
+                            <b>Booking Details</b>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <table style="width:100%">
+                                <tr>
+                                    <td colspan="2">
+                                        <label><b>Email:</b></label>
+                                        @Html.DisplayFor(model => model.UserProfile.Email)
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label><b>Phone:</b></label>
+                                        @Html.DisplayFor(model => model.UserProfile.Phone)
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label><b>Pick-Up Address:</b></label>
+                                        @ViewBag.PickUp
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label><b>Destination Address:</b></label>
+                                        @ViewBag.Destination
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2" align="center">
+                                        <label>
+                                            <b>Trip Summary</b>
+                                        </label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label><b>Trip To:</b></label>
+                                        @Html.DisplayFor(model => model.BookDetails.Vacation)
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label><b>Number of Passengers:</b></label>
+                                        @Html.DisplayFor(model => model.BookDetails.Passengers)
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label><b>Pick-Up Time:</b></label>
+                                        @Html.DisplayFor(model => model.BookDetails.LessonTime)
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label><b>Total Cost:</b></label>
+                                        @Model.BookDetails.Total.ToString("C")
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td colspan="2">
+                            <table style="width:100%;">
+                                <tr>
+                                    <td>
+                                        <label><b>Vehicle Make:</b></label>
+                                        @Html.DisplayFor(x => x.BookDetails.Vehicles.VehicleMake)
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <label><b>Vehicle Model:</b></label>
+                                        @Html.DisplayFor(x => x.BookDetails.Vehicles.Model)
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label><b>Book Date:</b></label>
+                                        @Html.DisplayFor(x => x.DateCreated)
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label><b>Hire Date:</b></label>
+                                        @Html.DisplayFor(x => x.BookDetails.VacationDate)
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label><b>Return Date:</b></label>
+                                        @Html.DisplayFor(x => x.BookDetails.ReturnDate)
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label><b>Payment Method:</b></label>
+                                        @Html.DisplayFor(x => x.PayMethod)
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label><b>Payment Status:</b></label>
+                                        @Html.DisplayFor(x => x.PaymentStatus)
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label><b>Process Status:</b></label>
+                                        @Html.DisplayFor(x => x.Status)
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label><b>Pick-Up Confirmation:</b></label>
+                                        @Html.DisplayFor(x => x.Confirmation)
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <br /><br />
+            @if (User.IsInRole("Administrator"))
+            {
+                if (Model.Status == "Pending")
+                {
+                    <div class="form-group">
+                        <div class="text-center">
+                            <a data-modal="" href="@Url.Action(actionName: "AssignDriver", controllerName: "Admin", routeValues: new { id = Model.BkID })" id="btnCreate" class="btn btn-primary">Process Booking</a>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <div class="form-group">
+                        <div class="text-center">
+                            <a href="@Url.Action(actionName: "Index", controllerName: "Bookings", routeValues: new { id = Model.BkID })" class="btn btn-primary">Already Processed</a>
+                        </div>
+                    </div>
+                }
+            }
+
+
+            @if (User.IsInRole("Driver"))
+            {
+                if (Model.Status == "Processed")
+                {
+                    <div class="form-group">
+                        <div class="text-center">
+                            <a href="@Url.Action(actionName: "PickUpLocation", controllerName: "DriversDashboard", routeValues: new { id = Model.BkID })" class="btn btn-primary">Pick-Up Location</a>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <div class="form-group">
+                        <div class="text-center">
+                            <a href="@Url.Action(actionName: "Index", controllerName: "DriversDashboard", routeValues: new { id = Model.BkID })" class="btn btn-primary">Trip Status: @Html.DisplayFor(x => x.Status)</a>
+                        </div>
+                    </div>
+                }
+            }
+
+            @if (!User.IsInRole("Driver") && !User.IsInRole("Administrator"))
+            {
+                <div class="form-group">
+                    <div class="text-center">
+                        <a href="@Url.Action(actionName: "TrackBook", controllerName: "CarHire")" class="btn btn-primary">Go Back</a>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+
+}
+
+<!-- modal placeholder-->
+<div id='myModal' class='modal fade in'>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div id='myModalContent'></div>
+        </div>
+    </div>
+</div>
+@section scripts{
+    @Scripts.Render("~/scripts/appjs/phones.js")
+}

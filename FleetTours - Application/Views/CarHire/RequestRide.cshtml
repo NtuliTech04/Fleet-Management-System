@@ -1,0 +1,86 @@
+﻿@model FleetTours___Application.Models.RideAddress
+
+@{
+    ViewBag.Title = "RequestRide";
+}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.0/semantic.min.css" />
+<link href="~/Content/StyleSheet1.css" rel="stylesheet" />
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA64GjWvP5X1IbrWXvNpu2P-7Tl8uFR6FE&libraries=places"></script>
+
+<style>
+    .size {
+        height: 5.5vh;
+        width: 32%;
+    }
+
+    body {
+        margin-top: 5vh;
+    }
+
+    .width {
+        width: 32.3vw;
+    }
+</style>
+
+<div class="jumbotron">
+    <div class="container">
+        <h2 class="text-center"><u>Where To?</u></h2>
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            <h4 class="text-center">Please provide ride addresses below</h4>
+            <div class="form-horizontal" style="margin-left:15vw;">
+                @Html.HiddenFor(x => x.Email)
+                <hr />
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    <label class="control-label col-md-2">Pick-Up:</label>
+                    <div class="col-md-10">
+                        <div class="ui icon big input" id="locator-input-section">
+                            <input class="form-control" type="text" name="PickUp" placeholder="Search pick-up location" id="autocomplete" required />
+                            <input class="btn btn-default size" type="button" value="My Location" id="locator-button" />
+                            <i aria-hidden="true" class="dot circle outline link icon" id="locator-button"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-2">Destination:</label>
+                    <div class="col-md-10">
+                        <div class="ui icon big input" id="locator-input-section">
+                            <input class="form-control width" type="text" name="Destination" placeholder="Search destination" id="autocompleteD" required />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div style="margin-left:26vw;">
+                        <input type="submit" value="Request Driver" class="btn btn-primary" />
+                    </div>
+                </div>
+            </div>
+        }
+        <div class="sales-boxes">
+            <div class="recent-sales box">
+                <div class="title"><i class="dot circle outline link icon"></i><b>My Location</b></div>
+                <style>
+                    #map {
+                        height: 90%;
+                    }
+                </style>
+                <div id="map"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/Scripts/AutoDestination.js"></script>
+<script src="~/Scripts/AutoPickUp.js"></script>
+<script src="~/Scripts/Location.js"></script>
+
+<script>
+    $("form").removeData("validator");
+    $("form").removeData("unobtrusiveValidation");
+    $.validator.unobtrusive.parse("form");
+</script>

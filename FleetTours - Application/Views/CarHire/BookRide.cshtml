@@ -1,0 +1,241 @@
+﻿@model FleetTours___Application.Models.Ride
+
+@{
+    ViewBag.Title = "BookRide";
+}
+
+<div class="jumbotron">
+    <div class="container">
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <link href="~/Content/StyleSheet1.css" rel="stylesheet" />
+
+            <input value="@ViewBag.Start" id="start" type="text" hidden="hidden" readonly="readonly" />
+            <input value="@ViewBag.End" id="end" type="text" hidden="hidden" readonly="readonly" />
+
+            <div class="sales-boxes">
+                <div class="recent-sales box">
+                    <div class="title"><b>GPS Navigator</b></div>
+                    <style>
+                        #map {
+                            height: 90%;
+                        }
+                        .width {
+                            width: 15vw;
+                        }
+                    </style>
+                    <div id="map"></div>
+                </div>
+                <div class="top-sales box">
+                    <div class="title text-center"><b>Ride Request Details</b></div>
+                    <ul class="top-sales-details">
+                        <li>
+                            <style>
+                                td {
+                                    padding-bottom: 2vh;
+                                }
+                            </style>
+                            <table style="margin-top:2vh;">
+                                <tr>
+                                    <td><b>Distance (KM):&nbsp;</b></td>
+                                    <td>
+                                        <div id="distance"></div>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td><b>Ride Duration:&nbsp;</b></td>
+                                    <td>
+                                        <div id="spanTime"></div>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td><b>Basic Cost:&nbsp;</b></td>
+                                    <td>
+                                        @Model.BasicCost.ToString("C")
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><b>Discount:&nbsp;</b></td>
+                                    <td>
+                                        @Model.Discounts.ToString("C")
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><b>Total Cost:&nbsp;</b></td>
+                                    <td>
+                                        @Model.TotalCost.ToString("C")
+                                    </td>
+                                </tr>
+                                <tr><td></td></tr>
+                                <tr><td></td></tr>
+                                @if (Model.RideID == 0)
+                                {
+                                    <tr>
+                                        <td colspan="2">
+                                            <div class="form-group text-center">
+                                                @Html.DropDownListFor(model => model.PaymentMethod, new List<SelectListItem>
+                                                                        {
+                                                                          new SelectListItem {Text = "Credit Card"},
+                                                                          new SelectListItem {Text = "Cash"},
+                                                          }, "--Payment Method--", htmlAttributes: new { @class = "form-control required width" })
+                                                @Html.ValidationMessageFor(model => model.PaymentMethod, "", new { @class = "text-danger" })
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                                <tr><td></td></tr>
+                                <tr><td></td></tr>
+                                <tr>
+                                    @if (Model.RideID == 0)
+                                    {
+                                        <td colspan="2" class="text-center">
+                                            <input type="submit" value="Get Ride Cost" class="btn btn-primary" />
+                                        </td>
+                                    }
+                                    else
+                                    {
+                                        if (Model.PaymentMethod == "Credit Card")
+                                        {
+                                            <td>
+                                                <a href="@Url.Action(actionName: "Secure_Payment", controllerName: "CarHire", routeValues: new { id = Model.RideID })" class="btn btn-primary">Payment</a>
+                                            </td>
+                                        }
+                                        else
+                                        {
+                                            <td>
+                                                <a href="@Url.Action(actionName: "RequestSuccess", controllerName: "CarHire")" class="btn btn-primary">Confirm</a>
+                                            </td>
+                                        }
+                                        <td>
+                                            <a data-modal="" id="btnCreate" href="@Url.Action(actionName: "Delete", controllerName: "Rides", routeValues: new { id = Model.RideID })" class="btn btn-warning">Cancel</a>
+                                        </td>
+                                    }
+
+                                </tr>
+                            </table>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="form-horizontal">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+              
+
+                <div class="form-group" hidden>
+                    @Html.LabelFor(model => model.RadID, "RadID", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.RadID, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.RadID, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+
+                <div class="form-group" hidden>
+                    @Html.LabelFor(model => model.Email, "Email", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group" hidden>
+                    @Html.LabelFor(model => model.Distance, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @*<input type="text" id="Ridelength" name="Distance" class="form-control" />*@
+                        @Html.EditorFor(model => model.Distance, new { htmlAttributes = new { @class = "form-control", id = "Ridelength" } })
+                        @Html.ValidationMessageFor(model => model.Distance, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group" hidden>
+                    @Html.LabelFor(model => model.BasicCost, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.BasicCost, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.BasicCost, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group" hidden>
+                    @Html.LabelFor(model => model.Discounts, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Discounts, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Discounts, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group" hidden>
+                    @Html.LabelFor(model => model.TotalCost, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.TotalCost, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.TotalCost, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                @*<div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" value="Create" class="btn btn-default" />
+                        </div>
+                    </div>*@
+            </div>
+        }
+    </div>
+</div>
+
+
+
+
+
+<script>
+    function initMap() {
+        var directionsService = new google.maps.DirectionsService();
+        var directionsDisplay = new google.maps.DirectionsRenderer;
+        var map = new google.maps.Map(document.getElementById("map"), {
+            zoom: 17,
+            center: { lat: -29.8587, lng: 31.0218 },
+        });
+
+        directionsDisplay.setMap(map);
+        calculateAndDisplayRoute(directionsService, directionsDisplay);
+        directionsDisplay.setPanel(document.getElementById('directionpanel'));
+    }
+
+    function calculateAndDisplayRoute(directionsService, directionsRenderer) {
+
+        console.log("Testing: " + document.getElementById("start").value)
+        directionsService.route({
+            origin: document.getElementById("start").value,
+            destination: document.getElementById("end").value,
+            travelMode: google.maps.TravelMode.DRIVING,
+        }, function (response, status) {
+            if (status === 'OK') {
+                directionsRenderer.setDirections(response);
+                document.getElementById('distance').innerHTML = (response.routes[0].legs[0].distance.value / 1000).toFixed(2) + " km";
+                document.getElementById('spanTime').innerHTML = response.routes[0].legs[0].duration.text;
+                document.getElementById('Ridelength').value = (response.routes[0].legs[0].distance.value / 1000).toFixed(0);
+
+            }
+            else {
+                window.alert("Directions request failed due to " + status);
+            }
+        });
+    }
+</script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA64GjWvP5X1IbrWXvNpu2P-7Tl8uFR6FE&callback=initMap"></script>
+
+<!-- modal placeholder-->
+<div id='myModal' class='modal fade in'>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div id='myModalContent'></div>
+        </div>
+    </div>
+</div>
+@section scripts{
+    @Scripts.Render("~/scripts/appjs/phones.js")
+    @Scripts.Render("~/bundles/jqueryval")
+}

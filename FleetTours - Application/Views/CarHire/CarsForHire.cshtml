@@ -1,0 +1,107 @@
+﻿@model FleetTours___Application.Models.PagedList<FleetTours___Application.Models.Vehicle>
+@{
+    ViewBag.Title = "Cars For Hire";
+}
+<style>
+    .input-validation-error, .required {
+        border-left: 5px solid #ee0000 !important;
+    }
+
+    .valid {
+        border-left: 5px solid #00aa00 !important;
+    }
+
+    .field-validation-error {
+        color: #990000;
+    }
+
+    .footer {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        height: 60px;
+        background-color: #f5f5f5;
+    }
+
+    tfoot {
+        text-align: right;
+    }
+
+        tfoot > tr > td a:link {
+            color: #fff;
+            background-color: #333;
+            padding: 5px 10px;
+            border-radius: 7px;
+        }
+</style>
+<div class="jumbotron">
+    <div class="container">
+        <h2 class="text-center"><u>Cars For Hire</u></h2>
+        @using (Html.BeginForm("CarsForHire", "CarHire", FormMethod.Get))
+        {
+            <div class="row">
+                <div class="col-sm-8">
+                    <div class="input-group">
+
+                        <input type="text"
+                               name="filter"
+                               value="@ViewBag.filter"
+                               class="form-control"
+                               style="display: inline"
+                               placeholder="Search by Brand or Model" />
+
+                        <span class="" style="display:flex;">
+                            <button class="btn btn-default" type="submit">Search</button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <div style="margin-top:17px;">
+                @{
+                    var grid = new WebGrid(
+                                canPage: true,
+                                rowsPerPage: Model.PageSize,
+                                canSort: true,
+                                ajaxUpdateContainerId: "grid");
+
+                    grid.Bind(Model.Content, rowCount: Model.TotalRecords, autoSortAndPage: false);
+                    grid.Pager(WebGridPagerModes.All);
+
+                    @grid.GetHtml(htmlAttributes: new { id = "grid" },   // id for ajaxUpdateContainerId parameter
+                    fillEmptyRows: false,
+                    tableStyle: "table table-bordered table-hover",
+                    mode: WebGridPagerModes.All,
+                    columns: grid.Columns(
+                      grid.Column("VehicleMake", "Brand"/*, style: "col-lg-3"*/),
+                      grid.Column("Model", "Model"/*, style: "col-lg-3"*/),
+                      grid.Column("Type", "Type"/*, style: "col-lg-3"*/),
+                      grid.Column("Capacity", "Capacity"/*, style: "col-lg-3"*/),
+                      grid.Column("VehicleImage", "Image", format:
+                        @<text>
+                               @if (item.VehicleImage != null)
+                                {                                                  
+                                   var base64 = Convert.ToBase64String(item.VehicleImage);
+                                   var imgsrc = string.Format("data:image/jpg;base64,{0}", base64);
+                                   <img src='@imgsrc' style="width:120px;height:90px" />
+                                }
+                       </text>),
+                                                      
+                  grid.Column(header: "Action", canSort: false, style: "action", format:
+                        @<text>
+                            <div class="text-center" style="margin-top:5vh">
+                                @if (item.Status == "Available")
+                                 {
+                                    <a href="@Url.Action(actionName: "Book", controllerName: "CarHire", routeValues: new { id = item.VehicleID })" class="btn btn-primary">Select Car</a>
+                                 }
+                                 else
+                                 {
+                                    <a href="@Url.Action(actionName: "Book", controllerName: "CarHire", routeValues: new { id = item.VehicleID})" class="btn btn-warning">Currently Unavailable</a>
+                                 }
+                            </div>
+                        </text>)));
+                }
+            </div>
+        }
+    </div>
+</div>

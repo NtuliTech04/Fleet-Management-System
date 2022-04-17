@@ -1,0 +1,136 @@
+﻿@model FleetTours___Application.Models.Driver
+
+@{
+    ViewBag.Title = "DriverProfile";
+}
+
+<div class="jumbotron">
+    <div class="container">
+        <h2 class="text-center">View And Update Profile Details</h2>
+        <br />
+        @using (Html.BeginForm("DriverProfile", "DriversDashboard", FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">
+
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group" hidden>
+                    @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.HiddenFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                @Html.HiddenFor(x=>x.DriverID)
+                <div class="form-group">
+                    <label class="control-label col-md-2">First Name:</label>
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                        @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-2">Surname:</label>
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                        @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-2">Phone:</label>
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Phone, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-2">SA ID:</label>
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.SAID, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                        @Html.ValidationMessageFor(model => model.SAID, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-2">Date of Birth:</label>
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.BirthDate, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                        @Html.ValidationMessageFor(model => model.BirthDate, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-2">Gender:</label>
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Cl_Gender, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                        @Html.ValidationMessageFor(model => model.Cl_Gender, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-2">Age:</label>
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Cl_Age, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                        @Html.ValidationMessageFor(model => model.Cl_Age, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @if (Model.DriverImage != null)
+                    {
+                        <label class="control-label col-md-2">Current Photo:</label>
+                        <div class="col-md-10">
+                            @if (Model.DriverImage != null)
+                            {
+                                var base64 = Convert.ToBase64String(Model.DriverImage);
+                                var imgsrc = string.Format("data:image/jpg;base64,{0}", base64);
+                                <img src='@imgsrc' style="max-width:110px;max-height:140px" />
+                            }
+                            @Html.ValidationMessageFor(model => model.DriverImage, "", new { @class = "text-danger" })
+                        </div>
+                    }
+                </div>
+
+
+                <div class="form-group">
+                    @if (Model.DriverImage != null)
+                    {
+                        <label class="control-label col-md-2">Change Photo:</label>
+                    }
+                    else
+                    {
+                        <label class="control-label col-md-2">Add Photo:</label>
+                    }
+                    <div class="col-md-10">
+                        <input type="file" name="file" id="file" class="form-control" required />
+                        @Html.ValidationMessageFor(model => model.DriverImage, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group text-center">
+                    <div class="" style="display:inline;">
+                        @if (Model.DriverImage != null)
+                        {
+                            <a href="@Url.Action(actionName: "RemovePhoto", controllerName: "DriversDashboard")" class="btn btn-warning"><i class="glyphicon glyphicon-trash"></i> Remove Photo</a>
+                        }
+                        <input type="submit" value="Update Profile" class="btn btn-success" />
+                        <a href="@Url.Action(actionName: "ChangePassword", controllerName: "Manage")" class="btn btn-info"><i class="glyphicon glyphicon-edit"></i> Change Password</a>
+                    </div>
+                </div>
+                <br />
+                <div class="form-group text-center">
+                    <div class="text-center">
+                        <a href="@Url.Action(actionName: "Index", controllerName: "Home")" class="btn btn-primary">Go Back</a>
+                    </div>
+                </div>
+            </div>
+        }
+
+        <div>
+        </div>
+    </div>
+</div>

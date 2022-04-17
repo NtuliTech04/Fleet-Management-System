@@ -1,0 +1,120 @@
+﻿@model IEnumerable<FleetTours___Application.Models.Ride>
+
+@{
+    ViewBag.Title = "My Rides";
+}
+
+<style>
+    table, th, td {
+        text-align: center;
+        border-collapse: collapse;
+        padding: 7px;
+    }
+
+        table tr:nth-child(odd) {
+            background-color: #f1f1f1;
+        }
+
+        table tr:nth-child(even) {
+            background-color: #ffffff;
+        }
+</style>
+
+
+<div class="jumbotron">
+    <div class="container" style="margin-top:8vh">
+        <h4 class="text-center"><b>Ride History and Driver Details</b></h4>
+        <br />
+
+        <table class="table table-hover">
+            <tr>
+                <th>
+                    <label>Pick-Up Location</label>
+                </th>
+                <th>
+                    <label>Destination Address</label>
+                </th>
+                <th>
+                    <label>Travel Distance</label>
+                </th>
+                <th>
+                    <label>Ride Cost</label>
+                </th>
+
+                <th>
+                    <label>Payment Status</label>
+                </th>
+                <th>
+                    <label>Ride Status</label>
+                </th>
+                <th>
+                    <label>Driver Info</label>
+                </th>
+                <th>
+                    <label>Vehicle Details</label>
+                </th>
+            </tr>
+
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @item.RideAddress.PickUp@*.Substring(0, 25)...*@
+                    </td>
+                    <td>
+                        @item.RideAddress.Destination@*.Substring(0, 25)...*@
+                    </td>
+
+                    <td>
+                        @item.Distance km
+                    </td>
+
+                    <td>
+                        @item.TotalCost.ToString("C")
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PaymentStatus)
+                    </td>
+                     <td>
+                        @Html.DisplayFor(modelItem => item.RideStatus)
+                    </td>
+                    <td>
+                        @if (item.DriverID != 0)
+                        {
+                            <a data-modal="" href="@Url.Action(actionName: "GetDriver", controllerName: "CarHire", routeValues: new { id = item.DriverID })" id="btnCreate" class="btn btn-info">Driver Info</a>
+                        }
+                        else
+                        {
+                            <label style="font-size:12px">Awaiting Acceptance</label>
+                        }
+                    </td>
+
+                    <td>
+                        @if (item.VehicleID != 0)
+                        {
+                            <a data-modal="" href="@Url.Action(actionName: "GetVehicle", controllerName: "CarHire", routeValues: new { id = item.VehicleID })" id="btnCreate" class="btn btn-primary">Vehicle Info</a>
+                        }
+                        else
+                        {
+                            <label style="font-size:12px">Currently Unavailable</label>
+                        }
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>
+
+<!-- modal placeholder-->
+<div id='myModal' class='modal fade in'>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div id='myModalContent'></div>
+        </div>
+    </div>
+</div>
+@section scripts{
+    @Scripts.Render("~/scripts/appjs/phones.js")
+}
